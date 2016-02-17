@@ -12,7 +12,7 @@ class Ad_Rotate_Email_Addon_Send_Email {
         $ads = $wpdb->get_results( $wpdb->prepare( "SELECT `thetime`, SUM(`clicks`) as `clicks`, SUM(`impressions`) as `impressions` FROM `" . $wpdb->prefix . "adrotate_stats` WHERE (`thetime` >= '" . $from . "' AND `thetime` <= '" . $until . "') AND `ad` = %d GROUP BY `thetime` ASC;", $id ), ARRAY_A );
 
         $title   = $wpdb->get_var( $wpdb->prepare( "SELECT `title` FROM `" . $wpdb->prefix . "adrotate` WHERE `id` = %d;", $id ) );
-        $user_id = $wpdb->get_var( $wpdb->prepare( "SELECT `user` FROM `" . $wpdb->prefix . "adrotate_linkmeta` WHERE `ad` = %d;", $id ) );
+        $user_id = $wpdb->get_var("SELECT `meta_value` FROM `".$wpdb->prefix."adsmeta` WHERE `ad` = $id AND `meta_key` = 'advertiser';");
         $user = $wpdb->get_results( $wpdb->prepare( "SELECT `user_email`,`display_name` FROM `" . $wpdb->prefix . "users`  WHERE `ID` = %d;", $user_id ), ARRAY_A );
 
         $useremail = $user[0]['user_email'];

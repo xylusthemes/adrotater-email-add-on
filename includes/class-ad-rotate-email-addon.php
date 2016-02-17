@@ -54,7 +54,7 @@ class Ad_Rotate_Email_Addon {
 	public function __construct() {
 
 		$this->ad_rotate_email_addon = 'ad-rotate-email-addon';
-		$this->version = '1.0.1';
+		$this->version = '1.0.3';
 
 		$this->load_dependencies();
 		$this->set_locale();

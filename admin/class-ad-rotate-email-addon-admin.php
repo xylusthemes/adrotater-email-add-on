@@ -101,8 +101,8 @@ class Ad_Rotate_Email_Addon_Admin {
 
 	}
 
-    public function dsp_wordpress_dashboard(){
-        add_submenu_page('adrotate', 'AdRotate > '.__('Email', 'adrotate'), __('Email', 'adrotate'), 'adrotate_ad_manage', 'adrotate_email', array(Ad_Rotate_Email_Addon_Admin,'dsp_ad_rotate_email'));
+    public static function dsp_wordpress_dashboard(){
+        add_submenu_page('adrotate', 'AdRotate > '.__('Email', 'adrotate'), __('Email', 'adrotate'), 'adrotate_ad_manage', 'adrotate_email', array('Ad_Rotate_Email_Addon_Admin','dsp_ad_rotate_email'));
     }
 
     /*-------------------------------------------------------------
@@ -112,7 +112,7 @@ class Ad_Rotate_Email_Addon_Admin {
      Receive:   -none-
      Return:    -none-
     -------------------------------------------------------------*/
-    public  function dsp_ad_rotate_email(){
+    public static function dsp_ad_rotate_email(){
         include("ad-rotate-email-main.php");
     }
 
@@ -128,7 +128,7 @@ class Ad_Rotate_Email_Addon_Admin {
         return $users;
     }
 
-    public function dsp_enable_option(){
+    public static function dsp_enable_option(){
         register_setting('dsp_option_group','dsp_subject');
         register_setting('dsp_option_group','dsp_from');
         register_setting('dsp_option_group','dsp_from_email');

@@ -30,8 +30,35 @@ class Ad_Rotate_Email_Addon_Activator{
 	 *
 	 * @since    1.0.0
 	 */
+    public function table_install(){
+        global $wpdb;
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-     public function activate() {
+        if ($wpdb->has_cap('collation')) {
+
+            if (!empty($wpdb->charset))
+                $charset_collate = " DEFAULT CHARACTER SET $wpdb->charset";
+            if (!empty($wpdb->collate))
+                $charset_collate .= " COLLATE $wpdb->collate";
+        }
+
+        $engine = '';
+        $found_engine = $wpdb->get_var("SELECT ENGINE FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA` = '" . DB_NAME . "' AND `TABLE_NAME` = '" . $wpdb->prefix . "posts';");
+        if (strtolower($found_engine) == 'innodb') {
+            $engine = ' ENGINE=InnoDB';
+        }
+
+        dbDelta("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."adsmeta` (
+		  	`meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+		  	`ad` bigint(20) unsigned NOT NULL DEFAULT '0',
+		  	`meta_key` varchar(255) DEFAULT NULL,
+            `meta_value` longtext,
+        PRIMARY KEY (`meta_id`)
+		) " . $charset_collate . $engine . ";");
+    }
+
+
+    public function activate() {
          /**
           * Set Options for Email template and Subject
           */
@@ -51,6 +78,8 @@ class Ad_Rotate_Email_Addon_Activator{
          update_option( 'dsp_from_email', $email);
          update_option( 'dsp_cc', $email);
          update_option( 'dsp_reply', $email);
+
+        Ad_Rotate_Email_Addon_Activator::table_install();
 
 	 }
 }

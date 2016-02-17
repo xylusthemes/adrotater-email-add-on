@@ -29,3 +29,13 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+global $wpdb;
+$wpdb->query("DROP TABLE IF EXISTS `".$wpdb->prefix."adsmeta`");
+
+delete_option('dsp_email_template');
+delete_option('dsp_subject');
+delete_option('dsp_from');
+delete_option('dsp_from_email');
+delete_option('dsp_cc');
+delete_option('dsp_reply');
